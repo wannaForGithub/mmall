@@ -246,6 +246,7 @@
     </dependencies>
     <build>
         <finalName>mmall</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
