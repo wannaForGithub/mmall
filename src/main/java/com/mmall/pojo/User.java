@@ -100,6 +100,11 @@ public class User {
         return role;
     }
 
+    /**
+     * 1-管理员
+     * 0-普通用户
+     * @param role
+     */
     public void setRole(Integer role) {
         this.role = role;
     }
