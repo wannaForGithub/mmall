@@ -2,6 +2,7 @@ package com.mmall.service.impl;
 
 import com.mmall.common.Const;
 import com.mmall.common.ServerResponse;
+import com.mmall.common.TokenCache;
 import com.mmall.dao.UserMapper;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
@@ -9,6 +10,8 @@ import com.mmall.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * Created by wanna on 2018/3/7.
@@ -20,6 +23,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 登录接口实现
+     *
      * @param username
      * @param password
      * @return
@@ -45,19 +49,20 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 注册接口实现
+     *
      * @param user
      * @return
      */
     @Override
     public ServerResponse<String> register(User user) {
-        //校验用户名是否已存在
+        //校验用户名是否已存在，复用checkValid()方法
         ServerResponse validResponse = this.checkValid(user.getUsername(), Const.USERNAME);
         if (!validResponse.isSuccess()) {
             return validResponse;
         }
 
-        //校验email是否存在
-        validResponse = this.checkValid(user.getEmail(),Const.EMAIL);
+        //校验email是否存在，复用checkValid()方法
+        validResponse = this.checkValid(user.getEmail(), Const.EMAIL);
         if (!validResponse.isSuccess()) {
             return validResponse;
         }
@@ -74,6 +79,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 校验用户名和email是否存在
+     *
      * @param str-传入校验的值，用户名或者是email
      * @param type-传入值的类型，类型为username或者email
      * @return
@@ -103,4 +109,47 @@ public class UserServiceImpl implements IUserService {
         }
         return ServerResponse.createBySuccessMessage("校验成功");
     }
+
+    /**
+     * 查询找回密码的问题
+     * @param username
+     * @return
+     */
+    @Override
+    public ServerResponse selectQuestion(String username) {
+        ServerResponse validResponse = this.checkValid(username, Const.USERNAME);
+        if (validResponse.isSuccess()) {
+            //用户不存在
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
+        //dao层实现数据库查询
+        String question = userMapper.selectQuestionByUsername(username);
+        if (StringUtils.isNoneBlank(question)) {//question不为空时
+            return ServerResponse.createBySuccess(question);
+        }
+        return ServerResponse.createByErrorMessage("找回密码的问题是空的");
+
+    }
+
+    /**
+     * 检查用户找回密码的的答案是否正确
+     * @param username-用户名
+     * @param question-问题
+     * @param answer-问题的答案
+     * @return
+     */
+    @Override
+    public ServerResponse<String> checkAnswer(String username, String question, String answer) {
+        int resultCount = userMapper.checkAnswer(username, question, answer);
+        if (resultCount > 0) {
+            //说明问题及问题答案是这个用户的，并且是正确的
+            //使用UUID设置忘记密码的token
+            String forgetToken = UUID.randomUUID().toString();
+            TokenCache.setKey("token_" + username, forgetToken);
+            return ServerResponse.createBySuccess(forgetToken);
+        }
+        return ServerResponse.createByErrorMessage("问题的答案错误");
+
+    }
+
 }

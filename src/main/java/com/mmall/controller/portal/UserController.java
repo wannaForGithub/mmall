@@ -4,6 +4,7 @@ import com.mmall.common.Const;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,36 +43,74 @@ public class UserController {
 
     /**
      * 登出接口
+     *
      * @param session
      * @return
      */
     @RequestMapping(value = "logout.do", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<String> logout(HttpSession session ){
+    public ServerResponse<String> logout(HttpSession session) {
         session.removeAttribute(Const.CURRENT_USER);
         return ServerResponse.createBySuccess();//static方法可以直接被调用
     }
 
     /**
      * 注册接口
+     *
      * @param user
      * @return
      */
     @RequestMapping(value = "register.do", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<String> register(User user){
+    public ServerResponse<String> register(User user) {
         return iUserService.register(user);
     }
 
     /**
      * 校验email和用户名是否存在
+     *
      * @param str-传入进行校验的值，是一个用户名或者是邮箱
      * @param type-传入检验的类型，指明是一个username还是一个email
      * @return-返回ServerResponse的status和message
      */
     @RequestMapping(value = "check_valid.do", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<String> checkValid(String str,String type){
-        return iUserService.checkValid(str,type);
+    public ServerResponse<String> checkValid(String str, String type) {
+        return iUserService.checkValid(str, type);
     }
+
+    /**
+     * 获取用户信息接口
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "get_user_info.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<User> getUserInfo(HttpSession session) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user != null) {
+            return ServerResponse.createBySuccess(user);
+        }
+        return ServerResponse.createByErrorMessage("用户未登录，无法获取到用户信息");
+
+    }
+
+    /**
+     * 获取找回密码的问题
+     *
+     * @param username
+     * @return
+     */
+    @RequestMapping(value = "forget_get_question.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<String> forgetGetQuestion(String username) {
+        return iUserService.selectQuestion(username);
+    }
+
+    public ServerResponse<String> forgetCheckAnswer(String username, String question, String answer) {
+        return null;
+    }
+
+
 }
