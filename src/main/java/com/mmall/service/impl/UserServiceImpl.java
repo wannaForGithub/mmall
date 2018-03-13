@@ -22,8 +22,7 @@ public class UserServiceImpl implements IUserService {
     private UserMapper userMapper;
 
     /**
-     * 登录接口实现
-     *
+     * 登录实现
      * @param username
      * @param password
      * @return
@@ -48,8 +47,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     /**
-     * 注册接口实现
-     *
+     * 注册实现
      * @param user
      * @return
      */
@@ -79,7 +77,6 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 校验用户名和email是否存在
-     *
      * @param str-传入校验的值，用户名或者是email
      * @param type-传入值的类型，类型为username或者email
      * @return
@@ -117,6 +114,7 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public ServerResponse selectQuestion(String username) {
+        //checkValid(username, Const.USERNAME)校验用户是否存在
         ServerResponse validResponse = this.checkValid(username, Const.USERNAME);
         if (validResponse.isSuccess()) {
             //用户不存在
@@ -132,24 +130,97 @@ public class UserServiceImpl implements IUserService {
     }
 
     /**
-     * 检查用户找回密码的的答案是否正确
+     * 检查用户找回密码的的答案是否正确，即传入的三个参数和数据库中所存的是否匹配
+     *若answer是正确的，则通过UUID设置一个随机字符串的token，并使用TokenCache类将token放入缓存
      * @param username-用户名
      * @param question-问题
      * @param answer-问题的答案
-     * @return
+     * @return 返回一个token
      */
     @Override
     public ServerResponse<String> checkAnswer(String username, String question, String answer) {
         int resultCount = userMapper.checkAnswer(username, question, answer);
-        if (resultCount > 0) {
-            //说明问题及问题答案是这个用户的，并且是正确的
-            //使用UUID设置忘记密码的token
+        if (resultCount > 0) {//说明问题及问题答案是这个用户的，并且是正确的
+
+            //使用UUID设置找回密码的答案的token
             String forgetToken = UUID.randomUUID().toString();
-            TokenCache.setKey("token_" + username, forgetToken);
+            TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
             return ServerResponse.createBySuccess(forgetToken);
         }
         return ServerResponse.createByErrorMessage("问题的答案错误");
 
     }
 
+
+    /**
+     * 忘记密码状态下重置密码
+     * @param username-用户名
+     * @param passwordNew-新的密码
+     * @param forgetToken-从checkAnswer()获取，如果校验用户名、问题、答案匹配，
+     *                   则通过UUID生成一个forgetToken并放到缓存当中,前端可以获取到该token并传入当前方法
+     * @return 返回找回密码是否成功的各个状态
+     */
+    @Override
+    public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
+
+        //校验token是否是空白
+        if (StringUtils.isBlank(forgetToken)) {
+            return ServerResponse.createByErrorMessage("参数错误，token需要传递");
+        }
+
+        //校验用户是否存在
+        ServerResponse validResponse = this.checkValid(username, Const.USERNAME);
+        if (validResponse.isSuccess()) {
+            //用户不存在
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
+
+        //获取缓存里面的token和传入的token进行比较
+        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
+        if (StringUtils.isBlank(token)) {
+            return ServerResponse.createByErrorMessage("token无效或者过期");
+        }
+
+        if (StringUtils.equals(forgetToken, token)) {
+            String md5Password = MD5Util.MD5EncodeUtf8(passwordNew);
+            //调用da层的通过用户名更新密码sql更新密码
+            int rowCount = userMapper.updatePasswordByUsername(username, md5Password);
+
+            if (rowCount > 0) {
+                return ServerResponse.createBySuccessMessage("修改密码成功");
+            }
+
+        }else {
+            return ServerResponse.createByErrorMessage("token错误，请重新获取重置密码的token");
+        }
+
+        return ServerResponse.createByErrorMessage("修改密码失败");
+    }
+
+    /**
+     *登录状态下的重置密码
+     * @param passwordOld-旧的密码
+     * @param passwordNew-新密码
+     * @param user-用于校验旧的密码是否是该用户的密码，防止横向越权。
+     * @return
+     */
+    @Override
+    public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user) {
+        //防止横向越权，校验用户的旧密码一定是这个用户的，所以要传user参数，如果不指定id，查询结果count
+        //很大的概率大于0，为true，user参数也是为了设置新密码
+        int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld),user.getId());
+        if (resultCount == 0){
+            return ServerResponse.createByErrorMessage("旧密码错误");
+        }
+
+        user.setPassword(passwordNew);
+        //设置新密码后更新user表，根据选择更新，只有密码改变时只更新密码，其它字段不更新
+        int updateCount = userMapper.updateByPrimaryKeySelective(user);
+        if (updateCount>0){
+            return ServerResponse.createBySuccessMessage("密码更新成功");
+        }
+
+        return ServerResponse.createByErrorMessage("密码更新失败");
+
+    }
 }

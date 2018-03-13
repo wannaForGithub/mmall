@@ -25,7 +25,6 @@ public class UserController {
 
     /**
      * 用户登录接口
-     *
      * @param username
      * @param password
      * @param session
@@ -43,7 +42,6 @@ public class UserController {
 
     /**
      * 登出接口
-     *
      * @param session
      * @return
      */
@@ -56,7 +54,6 @@ public class UserController {
 
     /**
      * 注册接口
-     *
      * @param user
      * @return
      */
@@ -71,7 +68,7 @@ public class UserController {
      *
      * @param str-传入进行校验的值，是一个用户名或者是邮箱
      * @param type-传入检验的类型，指明是一个username还是一个email
-     * @return-返回ServerResponse的status和message
+     * @return 返回ServerResponse的status和message
      */
     @RequestMapping(value = "check_valid.do", method = RequestMethod.GET)
     @ResponseBody
@@ -81,7 +78,6 @@ public class UserController {
 
     /**
      * 获取用户信息接口
-     *
      * @param session
      * @return
      */
@@ -96,11 +92,11 @@ public class UserController {
 
     }
 
+
     /**
      * 获取找回密码的问题
-     *
-     * @param username
-     * @return
+     * @param username-传入用户名
+     * @return 返回该用户找回问题的答案
      */
     @RequestMapping(value = "forget_get_question.do", method = RequestMethod.GET)
     @ResponseBody
@@ -108,9 +104,52 @@ public class UserController {
         return iUserService.selectQuestion(username);
     }
 
+
+    /**
+     * 检查答案是否匹配
+     * @param username-传入的用户名
+     * @param question-传入用户找回密码的问题
+     * @param answer-传入找回密码的答案
+     * @return 若能够匹配，则返回成功的状态和消息
+     */
+    @RequestMapping(value = "forget_check_answer.do", method = RequestMethod.GET)
+    @ResponseBody
     public ServerResponse<String> forgetCheckAnswer(String username, String question, String answer) {
-        return null;
+        return iUserService.checkAnswer(username, question, answer);
     }
 
+    /**
+     *
+     *忘记密码状态下找回密码（即重置密码）接口
+     * @param username
+     * @param passwordNew
+     * @param forgetToken
+     * @return
+     */
+    @RequestMapping(value = "forget_reset_password.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<String> forgetRetPassword(String username, String passwordNew, String forgetToken) {
+
+        return iUserService.forgetResetPassword(username, passwordNew, forgetToken);
+    }
+
+
+    /**
+     * 登录状态下的重置密码
+     * @param session
+     * @param passwordOld
+     * @param passwordNew
+     * @return
+     */
+    @RequestMapping(value = "reset_password.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+
+        return iUserService.resetPassword(passwordOld,passwordNew,user);
+    }
 
 }
