@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8cfaa1c4-7b92-4918-9c11-f722e4422168" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mmall/controller/backend/UserManageController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mmall/util/PropertiesUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mmall/controller/portal/UserController.java" afterPath="$PROJECT_DIR$/src/main/java/com/mmall/controller/portal/UserController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mmall/dao/UserMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/mmall/dao/UserMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mmall/service/IUserService.java" afterPath="$PROJECT_DIR$/src/main/java/com/mmall/service/IUserService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mmall/service/impl/UserServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/mmall/service/impl/UserServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mmall/util/MD5Util.java" afterPath="$PROJECT_DIR$/src/main/java/com/mmall/util/MD5Util.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mappers/UserMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mappers/UserMapper.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -1174,7 +1166,7 @@
       <workItem from="1520943837644" duration="9347000" />
       <workItem from="1521030447903" duration="5659000" />
       <workItem from="1521116982952" duration="7654000" />
-      <workItem from="1521129362910" duration="20000" />
+      <workItem from="1521129362910" duration="57000" />
     </task>
     <task id="LOCAL-00001" summary="git推送项目到GitHub">
       <created>1520067732872</created>
@@ -1225,11 +1217,18 @@
       <option name="project" value="LOCAL" />
       <updated>1520952360411</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="用户模块登录接口，注册接口，校验用户名和密码的接口开发完成">
+      <created>1521129411522</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1521129411522</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107325000" />
+    <option name="totallyTimeSpent" value="107362000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1242,7 +1241,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="2" y="2" width="1924" height="977" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1266,7 +1264,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24967825" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947233" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947233" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26990184" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26990184" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -1329,6 +1327,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3894">
           <caret line="118" column="9" lean-forward="true" selection-start-line="118" selection-start-column="9" selection-end-line="118" selection-end-column="9" />
+          <folding>
+            <marker date="1520174453383" expanded="true" signature="1080:1190" ph="select from mmall_category" />
+            <marker date="1520174453383" expanded="true" signature="1277:1341" ph="delete from " />
+            <marker date="1520174453383" expanded="true" signature="1422:1704" ph="insert into mmall_category... " />
+            <marker date="1520174453383" expanded="true" signature="3047:3684" ph="update mmall... " />
+            <marker date="1520174453383" expanded="true" signature="3777:4094" ph="update mmall... " />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1343,6 +1348,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6567">
           <caret line="199" column="11" lean-forward="true" selection-start-line="199" selection-start-column="11" selection-end-line="199" selection-end-column="11" />
+          <folding>
+            <marker date="1520175096251" expanded="true" signature="1733:1840" ph="select from mmall_order" />
+            <marker date="1520175096251" expanded="true" signature="1927:1988" ph="delete from " />
+            <marker date="1520175096251" expanded="true" signature="2066:2683" ph="insert into mmall_order... " />
+            <marker date="1520175096251" expanded="true" signature="5122:6469" ph="update mmall... " />
+            <marker date="1520175096251" expanded="true" signature="6559:7231" ph="update mmall... " />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1357,6 +1369,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5874">
           <caret line="178" column="9" lean-forward="true" selection-start-line="178" selection-start-column="9" selection-end-line="178" selection-end-column="9" />
+          <folding>
+            <marker date="1520175273805" expanded="true" signature="1528:1637" ph="select from mmall_product" />
+            <marker date="1520175273805" expanded="true" signature="1724:1787" ph="delete from " />
+            <marker date="1520175273805" expanded="true" signature="1867:2371" ph="insert into mmall_product... " />
+            <marker date="1520175273805" expanded="true" signature="4455:5566" ph="update mmall... " />
+            <marker date="1520175273805" expanded="true" signature="5658:6190" ph="update mmall... " />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1440,6 +1459,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3894">
           <caret line="118" column="9" lean-forward="false" selection-start-line="118" selection-start-column="9" selection-end-line="118" selection-end-column="9" />
+          <folding>
+            <marker date="1520174453383" expanded="true" signature="1080:1190" ph="select from mmall_category" />
+            <marker date="1520174453383" expanded="true" signature="1277:1341" ph="delete from " />
+            <marker date="1520174453383" expanded="true" signature="1422:1704" ph="insert into mmall_category... " />
+            <marker date="1520174453383" expanded="true" signature="3047:3684" ph="update mmall... " />
+            <marker date="1520174453383" expanded="true" signature="3777:4094" ph="update mmall... " />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1454,6 +1480,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6567">
           <caret line="199" column="11" lean-forward="false" selection-start-line="199" selection-start-column="11" selection-end-line="199" selection-end-column="11" />
+          <folding>
+            <marker date="1520175096251" expanded="true" signature="1733:1840" ph="select from mmall_order" />
+            <marker date="1520175096251" expanded="true" signature="1927:1988" ph="delete from " />
+            <marker date="1520175096251" expanded="true" signature="2066:2683" ph="insert into mmall_order... " />
+            <marker date="1520175096251" expanded="true" signature="5122:6469" ph="update mmall... " />
+            <marker date="1520175096251" expanded="true" signature="6559:7231" ph="update mmall... " />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1468,6 +1501,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5874">
           <caret line="178" column="9" lean-forward="false" selection-start-line="178" selection-start-column="9" selection-end-line="178" selection-end-column="9" />
+          <folding>
+            <marker date="1520175273805" expanded="true" signature="1528:1637" ph="select from mmall_product" />
+            <marker date="1520175273805" expanded="true" signature="1724:1787" ph="delete from " />
+            <marker date="1520175273805" expanded="true" signature="1867:2371" ph="insert into mmall_product... " />
+            <marker date="1520175273805" expanded="true" signature="4455:5566" ph="update mmall... " />
+            <marker date="1520175273805" expanded="true" signature="5658:6190" ph="update mmall... " />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1581,6 +1621,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="22" column="4" lean-forward="false" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
+          <folding>
+            <marker date="1521032829012" expanded="true" signature="1390:1506" ph="select from mmall_user" />
+            <marker date="1521032829012" expanded="true" signature="1597:1657" ph="delete from " />
+            <marker date="1521032829012" expanded="true" signature="1736:2135" ph="insert into mmall_user... " />
+            <marker date="1521032829012" expanded="true" signature="4304:5391" ph="update mmall... " />
+            <marker date="1521032829012" expanded="true" signature="5484:5926" ph="update mmall... " />
+            <marker date="1521032829012" expanded="true" signature="6007:6110" ph="UPDATE mmall... " />
+            <marker date="1521032829012" expanded="true" signature="6200:6265" ph="SELECT COUNT... mmall_user" />
+            <marker date="1521032829012" expanded="true" signature="6420:6566" ph="SELECT FROM mmall_user" />
+            <marker date="1521032829012" expanded="true" signature="6659:6764" ph="SELECT FROM mmall_user" />
+            <marker date="1521032829012" expanded="true" signature="6870:6938" ph="SELECT quest... mmall_user" />
+            <marker date="1521032829012" expanded="true" signature="7024:7150" ph="SELECT COUNT... mmall_user" />
+            <marker date="1521032829012" expanded="true" signature="7241:7289" ph="SELECT COUNT... mmall_user" />
+            <marker date="1521032829012" expanded="true" signature="7241:7361" ph="SELECT COUNT... mmall_user" />
+            <marker date="1521032829012" expanded="true" signature="7459:7566" ph="SELECT COUNT... mmall_user" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1588,6 +1644,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
           <caret line="9" column="17" lean-forward="false" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1606,6 +1665,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
           <caret line="9" column="25" lean-forward="false" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1613,6 +1675,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="248">
           <caret line="98" column="19" lean-forward="false" selection-start-line="98" selection-start-column="19" selection-end-line="98" selection-end-column="19" />
+          <folding>
+            <element signature="e#2103#2104#0" expanded="true" />
+            <element signature="e#2130#2131#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1628,6 +1694,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
           <caret line="18" column="9" lean-forward="false" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1635,6 +1704,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="248">
           <caret line="10" column="4" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
