@@ -23,6 +23,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 登录实现
+     *
      * @param username
      * @param password
      * @return
@@ -77,6 +78,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 校验用户名和email是否存在
+     *
      * @param str-传入校验的值，用户名或者是email
      * @param type-传入值的类型，类型为username或者email
      * @return
@@ -109,6 +111,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 查询找回密码的问题
+     *
      * @param username
      * @return
      */
@@ -131,7 +134,8 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 检查用户找回密码的的答案是否正确，即传入的三个参数和数据库中所存的是否匹配
-     *若answer是正确的，则通过UUID设置一个随机字符串的token，并使用TokenCache类将token放入缓存
+     * 若answer是正确的，则通过UUID设置一个随机字符串的token，并使用TokenCache类将token放入缓存
+     *
      * @param username-用户名
      * @param question-问题
      * @param answer-问题的答案
@@ -154,10 +158,10 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 忘记密码状态下重置密码
+     *
      * @param username-用户名
      * @param passwordNew-新的密码
-     * @param forgetToken-从checkAnswer()获取，如果校验用户名、问题、答案匹配，
-     *                   则通过UUID生成一个forgetToken并放到缓存当中,前端可以获取到该token并传入当前方法
+     * @param forgetToken-从checkAnswer()获取，如果校验用户名、问题、答案匹配， 则通过UUID生成一个forgetToken并放到缓存当中,前端可以获取到该token并传入当前方法
      * @return 返回找回密码是否成功的各个状态
      */
     @Override
@@ -190,7 +194,7 @@ public class UserServiceImpl implements IUserService {
                 return ServerResponse.createBySuccessMessage("修改密码成功");
             }
 
-        }else {
+        } else {
             return ServerResponse.createByErrorMessage("token错误，请重新获取重置密码的token");
         }
 
@@ -198,7 +202,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     /**
-     *登录状态下的重置密码
+     * 登录状态下的重置密码
+     *
      * @param passwordOld-旧的密码
      * @param passwordNew-新密码
      * @param user-用于校验旧的密码是否是该用户的密码，防止横向越权。
@@ -208,19 +213,58 @@ public class UserServiceImpl implements IUserService {
     public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user) {
         //防止横向越权，校验用户的旧密码一定是这个用户的，所以要传user参数，如果不指定id，查询结果count
         //很大的概率大于0，为true，user参数也是为了设置新密码
-        int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld),user.getId());
-        if (resultCount == 0){
+        int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld), user.getId());
+        if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("旧密码错误");
         }
 
         user.setPassword(passwordNew);
         //设置新密码后更新user表，根据选择更新，只有密码改变时只更新密码，其它字段不更新
         int updateCount = userMapper.updateByPrimaryKeySelective(user);
-        if (updateCount>0){
+        if (updateCount > 0) {
             return ServerResponse.createBySuccessMessage("密码更新成功");
         }
 
         return ServerResponse.createByErrorMessage("密码更新失败");
 
+    }
+
+
+    /**
+     * 更新用户信息
+     * @param user
+     * @return
+     */
+    @Override
+    public ServerResponse<User> updateInformation(User user) {
+        //检查email是否已经存在，条件为email存在，但是却不是当前user的，说明email已经存在。
+        int resultCount = userMapper.checkEmailByUserId(user.getEmail(), user.getId());
+        if (resultCount > 0) {
+            return ServerResponse.createByErrorMessage("email已经存在，请尝试更换email之后再更新");
+        }
+
+        User updateUser = new User();
+        updateUser.setId(user.getId());
+        updateUser.setEmail(user.getEmail());
+        updateUser.setPhone(user.getPhone());
+        updateUser.setQuestion(user.getQuestion());
+        updateUser.setAnswer(user.getAnswer());
+
+        int updateCount = userMapper.updateByPrimaryKeySelective(updateUser);
+        if (updateCount > 0) {
+            ServerResponse.createBySuccess("更新信息成功",updateUser);
+        }
+        return ServerResponse.createByErrorMessage("更新个人信息失败");
+    }
+
+
+    @Override
+    public ServerResponse<User> getInformation(Integer userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("找不到当前用户");
+        }
+        user.setPassword(StringUtils.EMPTY);
+        return ServerResponse.createBySuccess(user);
     }
 }

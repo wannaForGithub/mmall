@@ -209,4 +209,13 @@
         and
         password = #{password}
     </select>
+
+    <select id="checkEmailByUserId" resultType="int" parameterType="map">
+        SELECT
+        COUNT (1)
+        FROM mmall_user
+        WHERE email = #{emial}
+        and id != #{userId}
+
+    </select>
 </mapper>

@@ -1,8 +1,10 @@
 package com.mmall.util;
 
+import ch.qos.logback.classic.gaffer.PropertyUtil;
 import org.springframework.util.StringUtils;
 
 import java.security.MessageDigest;
+import java.util.Properties;
 
 /**
  * Created by geely
@@ -48,6 +50,7 @@ public class MD5Util {
     }
 
     public static String MD5EncodeUtf8(String origin) {
+        origin = origin + PropertiesUtil.getProperty("passpassword.salt", "");
         return MD5Encode(origin, "utf-8");
     }
 
