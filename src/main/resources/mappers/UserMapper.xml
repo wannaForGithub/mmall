@@ -161,12 +161,12 @@
 
     <update id="updatePasswordByUsername" parameterType="map">
     UPDATE mmall_user
-    SET password = #{passwordNew},updateTime = now()
+    SET password = #{passwordNew},update_time = now()
     where username = #{username}
   </update>
 
     <select id="checkUserName" resultType="int" parameterType="string">
-    SELECT COUNT (1) FROM mmall_user
+    SELECT COUNT(1) FROM mmall_user
     WHERE username = #{username}
   </select>
 
@@ -181,6 +181,7 @@
 
     <select id="checkEmail" resultType="int" parameterType="string">
         SELECT
+        COUNT(1)
         <include refid="Base_Column_List"/>
         FROM mmall_user
         WHERE email = #{email}
@@ -203,7 +204,7 @@
 
     <select id="checkPassword" resultType="int" parameterType="map">
         SELECT
-        COUNT (1)
+        COUNT(1)
         FROM mmall_user
         WHERE id = #{userId}
         and
@@ -212,7 +213,7 @@
 
     <select id="checkEmailByUserId" resultType="int" parameterType="map">
         SELECT
-        COUNT (1)
+        COUNT(1)
         FROM mmall_user
         WHERE email = #{emial}
         and id != #{userId}

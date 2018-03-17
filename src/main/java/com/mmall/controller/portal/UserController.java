@@ -145,7 +145,9 @@ public class UserController {
      */
     @RequestMapping(value = "reset_password.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew) {
+    public ServerResponse<String> resetPassword(HttpSession session,
+                                                String passwordOld,
+                                                String passwordNew) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null){
             return ServerResponse.createByErrorMessage("用户未登录");

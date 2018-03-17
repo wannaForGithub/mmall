@@ -187,7 +187,7 @@ public class UserServiceImpl implements IUserService {
 
         if (StringUtils.equals(forgetToken, token)) {
             String md5Password = MD5Util.MD5EncodeUtf8(passwordNew);
-            //调用da层的通过用户名更新密码sql更新密码
+            //调用dao层的通过用户名更新密码sql更新密码
             int rowCount = userMapper.updatePasswordByUsername(username, md5Password);
 
             if (rowCount > 0) {
@@ -218,7 +218,7 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("旧密码错误");
         }
 
-        user.setPassword(passwordNew);
+        user.setPassword(MD5Util.MD5EncodeUtf8(passwordNew));
         //设置新密码后更新user表，根据选择更新，只有密码改变时只更新密码，其它字段不更新
         int updateCount = userMapper.updateByPrimaryKeySelective(user);
         if (updateCount > 0) {
