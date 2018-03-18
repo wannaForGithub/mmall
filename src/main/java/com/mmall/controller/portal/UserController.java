@@ -198,4 +198,14 @@ public class UserController {
         return iUserService.getInformation(currentUser.getId());
     }
 
+    /**
+     * 校验用户是否是管理员
+     * @param user
+     * @return 返回成功或失败的status
+     */
+    public ServerResponse checkAdminRole(User user){
+        return iUserService.checkAdminRole(user);
+    }
+
+
 }
