@@ -6,6 +6,7 @@ import com.mmall.dao.CategoryMapper;
 import com.mmall.pojo.Category;
 import com.mmall.service.ICategoryService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by wanna on 2018/3/18.
@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 @Service("iCategoryService")
 public class CategoryServiceImpl implements ICategoryService {
 
-    private Logger logger = (Logger) LoggerFactory.getLogger(CategoryServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     @Autowired
     private CategoryMapper categoryMapper;
