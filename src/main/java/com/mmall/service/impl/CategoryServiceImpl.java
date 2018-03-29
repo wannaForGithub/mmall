@@ -1,6 +1,8 @@
 package com.mmall.service.impl;
 
 import com.github.pagehelper.StringUtil;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.mmall.common.ServerResponse;
 import com.mmall.dao.CategoryMapper;
 import com.mmall.pojo.Category;
@@ -14,6 +16,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by wanna on 2018/3/18.
@@ -27,7 +30,8 @@ public class CategoryServiceImpl implements ICategoryService {
     private CategoryMapper categoryMapper;
 
     /**
-     *添加分类
+     * 添加分类
+     *
      * @param categoryName
      * @param parentId
      * @return
@@ -53,6 +57,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
     /**
      * 更新分类名称
+     *
      * @param categoryId
      * @param categoryName
      * @return
@@ -77,16 +82,50 @@ public class CategoryServiceImpl implements ICategoryService {
 
     /**
      * 获取当前分类下的子分类
+     *
      * @param categoryId
      * @return
      */
     @Override
-    public ServerResponse<List<Category>> getChildrenParallelCategory(Integer categoryId){
+    public ServerResponse<List<Category>> getChildrenParallelCategory(Integer categoryId) {
         //dao层categoryMapper的数据库操作，根据父节点id帅选子节点
         List<Category> categoryList = categoryMapper.selectChildrenByParentId(categoryId);
-        if (CollectionUtils.isEmpty(categoryList)){
+        if (CollectionUtils.isEmpty(categoryList)) {
             logger.info("未找到当前分类的子分类");
         }
         return ServerResponse.createBySuccess(categoryList);
+    }
+
+
+    /**
+     * 递归查询当前节点id和递归查询子节点id
+     * @param categoryId
+     * @return
+     */
+    public ServerResponse selectCategoryAndChildrenById(Integer categoryId) {
+        Set<Category> categorySet = Sets.newHashSet();
+        findChildCategory(categorySet,categoryId);
+
+        List<Integer> categoryIdList = Lists.newArrayList();
+        if (categoryId != null){
+            for (Category categoryItem : categorySet){
+                categoryIdList.add(categoryItem.getId());
+            }
+        }
+        return ServerResponse.createBySuccess(categoryIdList);
+    }
+
+    //递归算法，算出子节点
+    private Set<Category> findChildCategory(Set<Category> categorySet, Integer categoryId) {
+        Category category = categoryMapper.selectByPrimaryKey(categoryId);
+        if (category != null) {
+            categorySet.add(category);
+        }
+        //查找子节点
+        List<Category> categoryList = categoryMapper.selectChildrenByParentId(categoryId);
+        for (Category categoryItem : categoryList) {
+            findChildCategory(categorySet,categoryItem.getId());
+        }
+        return categorySet;
     }
 }
